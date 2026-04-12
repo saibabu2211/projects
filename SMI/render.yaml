@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: my-streamlit-app
+    env: python
+    buildCommand: |
+      apt-get update
+      apt-get install -y tesseract-ocr poppler-utils
+      pip install -r requirements.txt
+      python postinstall.py
+    startCommand: streamlit run main.py
+    region: us
