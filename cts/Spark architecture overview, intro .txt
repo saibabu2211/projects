@@ -1,0 +1,11 @@
+Spark architecture overview, intro to RDDs & DataFrames
+DataFrame basics – read/write, select, filter
+Transformations & actions , Optimization – partitions, caching, best practices
+Joins, groupBy, aggregations in PySpark , PySpark SQL & window functions
+Mini project – ETL pipeline using PySpark (CSV → transform → Parquet)
+
+AWS S3 – buckets, lifecycle, permissions
+AWS IAM – users, roles, policies
+AWS Lambda – functions, triggers, integration with S3 , Docker basics – containers, images, Dockerfile
+AWS Step Functions – workflow orchestration , AWS Batch – jobs, queues, compute environments
+Mini project – Lambda function that processes S3 file & stores result
