@@ -1,0 +1,23 @@
+Air flow
+sql server
+Role_L1
+monitor the job
+we canot fix in 15 to 20
+then go to application team
+hadoop
+spark
+SLA__(service line agrement)
+
+Tools
+1)Hadoop
+2)Hive
+3)SQL
+4)
+
+
+2nd Tools and technologies
+hive and hdfs
+spark and scala
+Airflow
+AWS_s3
+EMR

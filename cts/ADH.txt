@@ -1,0 +1,120 @@
+explain
+Alright, let’s unpack the WEBVTT transcript of Huddle 3421 into a structured explanation. It’s essentially a walkthrough of the ADH data pipeline and its operational monitoring.
+
+🔄 End-to-End Data Flow
+Source System (CES Database)
+
+Data originates from Customer Experience System (CES).
+
+Includes Billing (BCM), CRM, OMS, Event Process data.
+
+GoldenGate → Kafka → HBase
+
+GoldenGate captures changes from CES.
+
+Pushes data into Kafka1 → replicated into HBase.
+
+From HBase → Kafka2, transformations are applied.
+
+Kafka2 → Hive tables (final ingestion).
+
+Ingestion Layer
+
+Data flows into nine subject areas (ERS, product collection, customer, etc.).
+
+Continuous ingestion jobs handle this streaming.
+
+🛠 Key Processes
+Replication: CES → Kafka1 → HBase (raw copy).
+
+Transformation: HBase → Kafka2 (data reshaped).
+
+Ingestion: Kafka2 → Hive staging → Hive tables.
+
+Reconciliation (Recon):
+
+Runs twice daily (around 5–6 PM and midnight).
+
+Checks for missing keys/relationships between tables.
+
+Reprocesses gaps to ensure consistency.
+
+Compaction:
+
+Deduplication step.
+
+Runs after recon (twice daily).
+
+Stops ingestion temporarily, removes duplicates, then resumes ingestion.
+
+📊 Monitoring & Alerts
+Data Freshness Reports:
+
+Hourly emails show lag, pending events, offsets.
+
+Thresholds:
+
+GoldenGate → Kafka: ≤ 5 min lag.
+
+Replicators/Transformers: ≤ 16 min lag.
+
+Ingestion pending offsets ≤ 250k.
+
+Offset Monitoring Emails:
+
+Every 15 min.
+
+Green = healthy, Yellow = lag, Red = issue.
+
+Actions:
+
+If pending offsets exceed thresholds, jobs must be bounced (restart).
+
+Replicators/Transformers: restart if >50k pending.
+
+Ingestion: restart if >250k pending.
+
+⚙️ Operational Jobs
+Replicators: 3 jobs (BCM, CRM, OMS).
+
+Transformers: 4 jobs.
+
+Ingestion: 9 jobs.
+
+Monitoring Jobs: Check replicators, transformers, ingestion status every 15 min.
+
+Usage Files (USERS data):
+
+Received via SFTP.
+
+Processed separately but also loaded into Hive.
+
+If pending files >10k, restart collectors.
+
+If >100k, split into parallel processes.
+
+🧾 Runbook & Documentation
+Runbook: Excel sheet with job descriptions, dependencies, and commands.
+
+Failure Tracker: Maintains logs of recon/ingestion failures.
+
+Airflow Graphs: Show sequence and parallelism of jobs visually.
+
+🚨 Common Issues & Fixes
+Lag > threshold → Reach out to CES source team.
+
+Pending offsets stuck → Bounce jobs.
+
+Recon failures → Caused by missing files or corrupted data; tracked in failure logs.
+
+High volume events (billing cycles, promos) → Adjust thresholds via change management (usually Tuesdays).
+
+📌 In short:
+ADH is a streaming + batch hybrid pipeline:
+
+GoldenGate → Kafka → HBase → Kafka → Hive
+
+Continuous monitoring via emails.
+
+Recon + compaction ensure data integrity.
+

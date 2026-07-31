@@ -1,0 +1,8 @@
+employeeId                 Reason
+
+892839 (Pranitha k)         Reserved for one project/updates will send if any changes
+734136 (sasidhar T)	    allocated as Sr Data analyst for other project
+2239834	(Gopika G)          allocated in a project
+525925	(Bhaskar K)         allocated in a project
+2296871(Padarthi Sivannarayan) OUT OF OFFICE
+2273561 (Pooja devi N)         OUT OF Office
